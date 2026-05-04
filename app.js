@@ -164,56 +164,108 @@ function renderSections() {
   });
 }
 
-/* ── Card (Drive-style) ────────────────────────────────── */
+/* ── Card (minimalist job-card style) ──────────────────── */
 function buildCard(card) {
   const wrap = el('div', { className: 'card' });
 
-  /* ── Preview area ── */
-  const preview = el('div', { className: `card-preview preview-${card.category}` });
-  const inner   = el('div', { className: 'card-preview-inner' });
+  /* ── Top row: circular favicon + ⋯ menu ── */
+  const top = el('div', { className: 'card-top' });
+  top.appendChild(buildFaviconCircle(card));
+  top.appendChild(buildMenu(card));
+  wrap.appendChild(top);
 
-  inner.appendChild(buildFaviconLg(card));
+  /* ── Eyebrow: category · date ── */
+  const eyebrow = el('p', { className: 'card-eyebrow' });
+  eyebrow.textContent = `${CAT_LABELS[card.category]} · ${fmtDate(card.date_added)}`;
+  wrap.appendChild(eyebrow);
 
-  const domain = el('span', { className: 'card-domain' });
-  try { domain.textContent = new URL(card.url).hostname.replace(/^www\./, ''); }
-  catch { domain.textContent = card.url; }
-  inner.appendChild(domain);
-
-  preview.appendChild(inner);
-  wrap.appendChild(preview);
-
-  /* ── Meta bar ── */
-  const meta     = el('div', { className: 'card-meta' });
-  const metaInfo = el('div', { className: 'card-meta-info' });
-
-  const title = el('p', { className: 'card-title' });
+  /* ── Title ── */
+  const title = el('h2', { className: 'card-title' });
   title.textContent = card.title;
-  metaInfo.appendChild(title);
+  wrap.appendChild(title);
 
-  const sub = el('p', { className: 'card-meta-sub' });
-  sub.textContent = CAT_LABELS[card.category];
-  if (card.tags?.length) sub.textContent += ' · ' + card.tags.slice(0, 2).join(' · ');
-  metaInfo.appendChild(sub);
+  /* ── Description ── */
+  const desc = el('p', { className: 'card-desc' });
+  desc.textContent = card.description;
+  wrap.appendChild(desc);
 
-  meta.appendChild(metaInfo);
+  /* ── Tag pills ── */
+  if (card.tags?.length) {
+    const pills = el('div', { className: 'card-tags' });
+    card.tags.forEach(t => {
+      const pill = el('span', { className: 'tag-pill' });
+      pill.textContent = t;
+      pills.appendChild(pill);
+    });
+    wrap.appendChild(pills);
+  }
 
-  /* ── Three-dot menu ── */
+  /* ── Divider ── */
+  wrap.appendChild(el('hr', { className: 'card-divider' }));
+
+  /* ── Footer: domain + visit button ── */
+  const footer = el('div', { className: 'card-footer' });
+
+  const domainText = el('span', { className: 'card-domain-text' });
+  try { domainText.textContent = new URL(card.url).hostname.replace(/^www\./, ''); }
+  catch { domainText.textContent = card.url; }
+  footer.appendChild(domainText);
+
+  const visitBtn = el('a', { className: 'card-visit-btn' });
+  visitBtn.textContent = '→ Visit';
+  visitBtn.href   = card.url;
+  visitBtn.target = '_blank';
+  visitBtn.rel    = 'noopener noreferrer';
+  visitBtn.addEventListener('click', e => e.stopPropagation());
+  footer.appendChild(visitBtn);
+
+  wrap.appendChild(footer);
+
+  /* ── Click card body → detail panel ── */
+  wrap.addEventListener('click', e => {
+    if (e.target.closest('.card-menu-wrap') || e.target.closest('.card-visit-btn')) return;
+    activeCard = card;
+    pushHash(`r/${card.slug}`);
+  });
+
+  return wrap;
+}
+
+function buildFaviconCircle(card) {
+  if (card.favicon_url) {
+    const circle = el('div', { className: 'card-favicon-circle' });
+    const img = el('img', { alt: '' });
+    img.src = card.favicon_url;
+    img.onerror = () => circle.replaceWith(fallbackCircle(card.title));
+    circle.appendChild(img);
+    return circle;
+  }
+  return fallbackCircle(card.title);
+}
+
+function fallbackCircle(title) {
+  const d = el('div', { className: 'card-favicon-circle-fallback' });
+  d.textContent = title.charAt(0).toUpperCase();
+  return d;
+}
+
+function buildMenu(card) {
   const menuWrap = el('div', { className: 'card-menu-wrap' });
   const menuBtn  = el('button', { className: 'card-menu-btn' });
   menuBtn.setAttribute('aria-label', `Options for ${card.title}`);
-  menuBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <circle cx="3" cy="8" r="1.4" fill="currentColor"/>
-    <circle cx="8" cy="8" r="1.4" fill="currentColor"/>
-    <circle cx="13" cy="8" r="1.4" fill="currentColor"/>
+  menuBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <circle cx="3" cy="8" r="1.5" fill="currentColor"/>
+    <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
+    <circle cx="13" cy="8" r="1.5" fill="currentColor"/>
   </svg>`;
 
   const dropdown = el('div', { className: 'card-dropdown' });
 
   const visitItem = el('a', { className: 'card-dropdown-item' });
   visitItem.textContent = '→ Visit site';
-  visitItem.href   = card.url;
+  visitItem.href = card.url;
   visitItem.target = '_blank';
-  visitItem.rel    = 'noopener noreferrer';
+  visitItem.rel = 'noopener noreferrer';
 
   const detailItem = el('button', { className: 'card-dropdown-item' });
   detailItem.textContent = 'View details';
@@ -235,33 +287,7 @@ function buildCard(card) {
 
   menuWrap.appendChild(menuBtn);
   menuWrap.appendChild(dropdown);
-  meta.appendChild(menuWrap);
-  wrap.appendChild(meta);
-
-  /* ── Card click → detail panel ── */
-  wrap.addEventListener('click', e => {
-    if (e.target.closest('.card-menu-wrap')) return;
-    activeCard = card;
-    pushHash(`r/${card.slug}`);
-  });
-
-  return wrap;
-}
-
-function buildFaviconLg(card) {
-  if (card.favicon_url) {
-    const img = el('img', { className: 'card-favicon-lg', alt: '' });
-    img.src = card.favicon_url;
-    img.onerror = () => img.replaceWith(fallbackIconLg(card.title));
-    return img;
-  }
-  return fallbackIconLg(card.title);
-}
-
-function fallbackIconLg(title) {
-  const d = el('div', { className: 'card-favicon-lg-fallback' });
-  d.textContent = title.charAt(0).toUpperCase();
-  return d;
+  return menuWrap;
 }
 
 function closeDropdowns() {
