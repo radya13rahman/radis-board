@@ -1,0 +1,167 @@
+[
+  {
+    "id": "1",
+    "slug": "we-work-remotely",
+    "title": "We Work Remotely",
+    "category": "remote-jobs",
+    "description": "One of the largest remote job boards with thousands of listings across design, development, marketing, and more.",
+    "url": "https://weworkremotely.com",
+    "date_added": "2025-01-12",
+    "tags": ["job board", "free", "async"],
+    "favicon_url": "https://weworkremotely.com/favicon.ico"
+  },
+  {
+    "id": "2",
+    "slug": "remote-co",
+    "title": "Remote.co",
+    "category": "remote-jobs",
+    "description": "A curated list of remote jobs with a focus on quality over quantity. Great for finding vetted remote-first companies.",
+    "url": "https://remote.co",
+    "date_added": "2025-01-15",
+    "tags": ["curated", "job board"],
+    "favicon_url": "https://remote.co/favicon.ico"
+  },
+  {
+    "id": "3",
+    "slug": "flexjobs",
+    "title": "FlexJobs",
+    "category": "remote-jobs",
+    "description": "Vetted remote and flexible job listings. All jobs are hand-screened for legitimacy before posting.",
+    "url": "https://flexjobs.com",
+    "date_added": "2025-01-18",
+    "tags": ["vetted", "paid"],
+    "favicon_url": "https://www.flexjobs.com/favicon.ico"
+  },
+  {
+    "id": "4",
+    "slug": "remotive",
+    "title": "Remotive",
+    "category": "remote-jobs",
+    "description": "Remote tech jobs from verified companies. Also has a newsletter with the best remote opportunities each week.",
+    "url": "https://remotive.com",
+    "date_added": "2025-01-20",
+    "tags": ["tech", "newsletter", "free"],
+    "favicon_url": "https://remotive.com/favicon.ico"
+  },
+  {
+    "id": "5",
+    "slug": "remote-ok",
+    "title": "Remote OK",
+    "category": "remote-jobs",
+    "description": "One of the original remote job boards. Aggregates remote jobs from across the web with real-time listings.",
+    "url": "https://remoteok.com",
+    "date_added": "2025-01-22",
+    "tags": ["aggregator", "free", "dev"],
+    "favicon_url": "https://remoteok.com/favicon.ico"
+  },
+  {
+    "id": "6",
+    "slug": "claude-ai",
+    "title": "Claude",
+    "category": "ai-tools",
+    "description": "Anthropic's AI assistant. Excellent for writing, analysis, coding, and nuanced reasoning tasks.",
+    "url": "https://claude.ai",
+    "date_added": "2025-02-01",
+    "tags": ["LLM", "writing", "coding"],
+    "favicon_url": "https://claude.ai/favicon.ico"
+  },
+  {
+    "id": "7",
+    "slug": "cursor-sh",
+    "title": "Cursor",
+    "category": "ai-tools",
+    "description": "The AI-first code editor. Built on top of VS Code with deep LLM integration for pair programming.",
+    "url": "https://cursor.sh",
+    "date_added": "2025-02-05",
+    "tags": ["coding", "editor", "VS Code"],
+    "favicon_url": "https://cursor.sh/favicon.ico"
+  },
+  {
+    "id": "8",
+    "slug": "perplexity",
+    "title": "Perplexity",
+    "category": "ai-tools",
+    "description": "AI-powered search engine that synthesizes information from the web with cited sources. Great for research.",
+    "url": "https://perplexity.ai",
+    "date_added": "2025-02-08",
+    "tags": ["search", "research", "free"],
+    "favicon_url": "https://perplexity.ai/favicon.ico"
+  },
+  {
+    "id": "9",
+    "slug": "midjourney",
+    "title": "Midjourney",
+    "category": "ai-tools",
+    "description": "AI image generation via Discord. Industry-leading quality for creative and artistic visuals.",
+    "url": "https://midjourney.com",
+    "date_added": "2025-02-10",
+    "tags": ["image gen", "creative", "paid"],
+    "favicon_url": "https://midjourney.com/favicon.ico"
+  },
+  {
+    "id": "10",
+    "slug": "v0-vercel",
+    "title": "v0 by Vercel",
+    "category": "ai-tools",
+    "description": "Generate UI components from plain text prompts. Outputs clean React + Tailwind code ready to paste into your project.",
+    "url": "https://v0.dev",
+    "date_added": "2025-02-14",
+    "tags": ["UI", "codegen", "React"],
+    "favicon_url": "https://v0.dev/favicon.ico"
+  },
+  {
+    "id": "11",
+    "slug": "dribbble",
+    "title": "Dribbble",
+    "category": "inspiration",
+    "description": "The leading community for designers to share, grow, and discover creative work. Endless UI and visual inspiration.",
+    "url": "https://dribbble.com",
+    "date_added": "2025-03-01",
+    "tags": ["design", "UI", "community"],
+    "favicon_url": "https://dribbble.com/favicon.ico"
+  },
+  {
+    "id": "12",
+    "slug": "behance",
+    "title": "Behance",
+    "category": "inspiration",
+    "description": "Adobe's platform for creative professionals to showcase portfolios. Strong in branding, illustration, and motion.",
+    "url": "https://behance.net",
+    "date_added": "2025-03-03",
+    "tags": ["portfolio", "branding", "free"],
+    "favicon_url": "https://www.behance.net/favicon.ico"
+  },
+  {
+    "id": "13",
+    "slug": "are-na",
+    "title": "Are.na",
+    "category": "inspiration",
+    "description": "A visual research and bookmarking tool for curious people. Save images, links, and text into organized channels.",
+    "url": "https://are.na",
+    "date_added": "2025-03-06",
+    "tags": ["research", "moodboard", "minimal"],
+    "favicon_url": "https://are.na/favicon.ico"
+  },
+  {
+    "id": "14",
+    "slug": "land-book",
+    "title": "Land-book",
+    "category": "inspiration",
+    "description": "Curated gallery of the best landing pages on the web. Great for studying copywriting and conversion design patterns.",
+    "url": "https://land-book.com",
+    "date_added": "2025-03-10",
+    "tags": ["landing pages", "curated"],
+    "favicon_url": "https://land-book.com/favicon.ico"
+  },
+  {
+    "id": "15",
+    "slug": "mobbin",
+    "title": "Mobbin",
+    "category": "inspiration",
+    "description": "The world's largest collection of mobile and web UI patterns. Search by pattern, feature, or app name.",
+    "url": "https://mobbin.com",
+    "date_added": "2025-03-12",
+    "tags": ["mobile", "UI patterns", "web"],
+    "favicon_url": "https://mobbin.com/favicon.ico"
+  }
+]
