@@ -179,110 +179,174 @@ body {
 
 .see-all-link:hover { text-decoration: underline; }
 
-/* ── Card ──────────────────────────────────────────────── */
+/* ── Card (Drive-style) ────────────────────────────────── */
 .card {
   background: var(--white);
-  border: 1px solid var(--surface);
-  border-radius: var(--card-radius);
-  min-height: 250px;
+  border: 1px solid #E8E8E8;
+  border-radius: 12px;
   min-width: 0;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
   cursor: pointer;
+  overflow: hidden;
   transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
   box-shadow: var(--card-shadow);
 }
 
 .card:hover {
-  border-color: var(--brand);
-  box-shadow:
-    0px 2px 4px  rgba(0,0,0,.08),
-    0px 8px 16px rgba(0,0,0,.10),
-    0px 16px 32px rgba(0,0,0,.06);
+  border-color: #D0D0D0;
+  box-shadow: 0 2px 12px rgba(0,0,0,.10), 0 1px 3px rgba(0,0,0,.06);
   transform: translateY(-2px);
 }
 
-.card-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.card-favicon-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-  flex: 1;
-}
-
-.card-favicon {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  flex-shrink: 0;
-  object-fit: contain;
-}
-
-.card-favicon-fallback {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  background: var(--surface);
-  flex-shrink: 0;
+/* ── Card preview (thumbnail area) ────────────────────── */
+.card-preview {
+  height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
-  font-weight: 600;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.preview-remote-jobs { background: #FFF5F0; }
+.preview-ai-tools    { background: #EEF4FF; }
+.preview-inspiration { background: #F5EEFF; }
+
+.card-preview-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-favicon-lg {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  object-fit: contain;
+  box-shadow: 0 2px 10px rgba(0,0,0,.14);
+}
+
+.card-favicon-lg-fallback {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--brand);
+  box-shadow: 0 2px 10px rgba(0,0,0,.12);
+}
+
+.card-domain {
+  font-size: 11px;
   color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+/* ── Card meta (bottom bar) ────────────────────────────── */
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px 12px 16px;
+  border-top: 1px solid #F0F0F0;
+}
+
+.card-meta-info {
+  flex: 1;
+  min-width: 0;
 }
 
 .card-title {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--black);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  letter-spacing: -0.2px;
+  letter-spacing: -0.16px;
+  margin-bottom: 2px;
 }
 
-.card-cat-tag {
+.card-meta-sub {
   font-size: 11px;
-  font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 4px;
+  color: var(--muted);
   white-space: nowrap;
-  flex-shrink: 0;
-  letter-spacing: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.tag-remote-jobs  { background: #FFF0EB; color: #C85E3A; }
-.tag-ai-tools     { background: #EBF3FF; color: #2563EB; }
-.tag-inspiration  { background: #F3EBFF; color: #7C3AED; }
+/* ── Three-dot menu ────────────────────────────────────── */
+.card-menu-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
 
-.card-description {
+.card-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--muted);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.card-menu-btn:hover {
+  background: var(--surface);
+  color: var(--black);
+}
+
+.card-dropdown {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  right: 0;
+  background: var(--white);
+  border: 1px solid #E8E8E8;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.12), 0 1px 4px rgba(0,0,0,.06);
+  min-width: 160px;
+  z-index: 50;
+  overflow: hidden;
+  display: none;
+  padding: 4px;
+}
+
+.card-dropdown.open { display: block; }
+
+.card-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
   font-size: 13px;
+  font-family: var(--font);
   font-weight: 400;
   color: var(--black);
-  line-height: 1.55;
-  flex-grow: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.1s ease;
+  letter-spacing: -0.1px;
 }
 
-.card-tags {
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-}
+.card-dropdown-item:hover { background: var(--surface); }
 
+/* ── Tag pills (used in panel too) ────────────────────── */
 .tag-pill {
   font-size: 11px;
   color: var(--muted);
@@ -292,40 +356,10 @@ body {
   font-weight: 400;
 }
 
-.card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: auto;
-  padding-top: 4px;
-}
-
-.card-date {
-  font-size: 11px;
-  color: var(--muted);
-  font-weight: 400;
-}
-
-.card-visit-btn {
-  font-family: var(--font);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--brand);
-  background: none;
-  border: 1px solid var(--brand);
-  border-radius: 4px;
-  padding: 5px 12px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.15s ease, color 0.15s ease;
-  letter-spacing: -0.1px;
-  flex-shrink: 0;
-}
-
-.card-visit-btn:hover {
-  background: var(--brand);
-  color: var(--white);
-}
+/* ── Category tag colours ──────────────────────────────── */
+.tag-remote-jobs  { background: #FFF0EB; color: #C85E3A; }
+.tag-ai-tools     { background: #EBF3FF; color: #2563EB; }
+.tag-inspiration  { background: #F3EBFF; color: #7C3AED; }
 
 /* ── Empty state ───────────────────────────────────────── */
 .empty-state {

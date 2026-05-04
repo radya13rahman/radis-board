@@ -164,61 +164,83 @@ function renderSections() {
   });
 }
 
-/* ── Card ──────────────────────────────────────────────── */
+/* ── Card (Drive-style) ────────────────────────────────── */
 function buildCard(card) {
   const wrap = el('div', { className: 'card' });
 
-  /* header row */
-  const header = el('div', { className: 'card-header' });
+  /* ── Preview area ── */
+  const preview = el('div', { className: `card-preview preview-${card.category}` });
+  const inner   = el('div', { className: 'card-preview-inner' });
 
-  const faviconTitle = el('div', { className: 'card-favicon-title' });
-  faviconTitle.appendChild(buildFavicon(card));
+  inner.appendChild(buildFaviconLg(card));
 
-  const title = el('span', { className: 'card-title' });
+  const domain = el('span', { className: 'card-domain' });
+  try { domain.textContent = new URL(card.url).hostname.replace(/^www\./, ''); }
+  catch { domain.textContent = card.url; }
+  inner.appendChild(domain);
+
+  preview.appendChild(inner);
+  wrap.appendChild(preview);
+
+  /* ── Meta bar ── */
+  const meta     = el('div', { className: 'card-meta' });
+  const metaInfo = el('div', { className: 'card-meta-info' });
+
+  const title = el('p', { className: 'card-title' });
   title.textContent = card.title;
-  faviconTitle.appendChild(title);
-  header.appendChild(faviconTitle);
+  metaInfo.appendChild(title);
 
-  const tag = el('span', { className: `card-cat-tag tag-${card.category}` });
-  tag.textContent = CAT_LABELS[card.category];
-  header.appendChild(tag);
+  const sub = el('p', { className: 'card-meta-sub' });
+  sub.textContent = CAT_LABELS[card.category];
+  if (card.tags?.length) sub.textContent += ' · ' + card.tags.slice(0, 2).join(' · ');
+  metaInfo.appendChild(sub);
 
-  wrap.appendChild(header);
+  meta.appendChild(metaInfo);
 
-  /* description */
-  const desc = el('p', { className: 'card-description' });
-  desc.textContent = card.description;
-  wrap.appendChild(desc);
+  /* ── Three-dot menu ── */
+  const menuWrap = el('div', { className: 'card-menu-wrap' });
+  const menuBtn  = el('button', { className: 'card-menu-btn' });
+  menuBtn.setAttribute('aria-label', `Options for ${card.title}`);
+  menuBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <circle cx="3" cy="8" r="1.4" fill="currentColor"/>
+    <circle cx="8" cy="8" r="1.4" fill="currentColor"/>
+    <circle cx="13" cy="8" r="1.4" fill="currentColor"/>
+  </svg>`;
 
-  /* tag pills */
-  if (card.tags?.length) {
-    const pills = el('div', { className: 'card-tags' });
-    card.tags.forEach(t => {
-      const pill = el('span', { className: 'tag-pill' });
-      pill.textContent = t;
-      pills.appendChild(pill);
-    });
-    wrap.appendChild(pills);
-  }
+  const dropdown = el('div', { className: 'card-dropdown' });
 
-  /* footer */
-  const footer = el('div', { className: 'card-footer' });
+  const visitItem = el('a', { className: 'card-dropdown-item' });
+  visitItem.textContent = '→ Visit site';
+  visitItem.href   = card.url;
+  visitItem.target = '_blank';
+  visitItem.rel    = 'noopener noreferrer';
 
-  const date = el('span', { className: 'card-date' });
-  date.textContent = `Added: ${fmtDate(card.date_added)}`;
-  footer.appendChild(date);
+  const detailItem = el('button', { className: 'card-dropdown-item' });
+  detailItem.textContent = 'View details';
+  detailItem.addEventListener('click', () => {
+    closeDropdowns();
+    activeCard = card;
+    pushHash(`r/${card.slug}`);
+  });
 
-  const visitBtn = el('a', { className: 'card-visit-btn' });
-  visitBtn.textContent = '→ Visit';
-  visitBtn.href   = card.url;
-  visitBtn.target = '_blank';
-  visitBtn.rel    = 'noopener noreferrer';
-  visitBtn.addEventListener('click', e => e.stopPropagation());
-  footer.appendChild(visitBtn);
+  dropdown.appendChild(visitItem);
+  dropdown.appendChild(detailItem);
 
-  wrap.appendChild(footer);
+  menuBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = dropdown.classList.contains('open');
+    closeDropdowns();
+    if (!isOpen) dropdown.classList.add('open');
+  });
 
-  wrap.addEventListener('click', () => {
+  menuWrap.appendChild(menuBtn);
+  menuWrap.appendChild(dropdown);
+  meta.appendChild(menuWrap);
+  wrap.appendChild(meta);
+
+  /* ── Card click → detail panel ── */
+  wrap.addEventListener('click', e => {
+    if (e.target.closest('.card-menu-wrap')) return;
     activeCard = card;
     pushHash(`r/${card.slug}`);
   });
@@ -226,20 +248,24 @@ function buildCard(card) {
   return wrap;
 }
 
-function buildFavicon(card) {
+function buildFaviconLg(card) {
   if (card.favicon_url) {
-    const img = el('img', { className: 'card-favicon', alt: '' });
+    const img = el('img', { className: 'card-favicon-lg', alt: '' });
     img.src = card.favicon_url;
-    img.onerror = () => img.replaceWith(fallbackIcon(card.title));
+    img.onerror = () => img.replaceWith(fallbackIconLg(card.title));
     return img;
   }
-  return fallbackIcon(card.title);
+  return fallbackIconLg(card.title);
 }
 
-function fallbackIcon(title) {
-  const d = el('div', { className: 'card-favicon-fallback' });
+function fallbackIconLg(title) {
+  const d = el('div', { className: 'card-favicon-lg-fallback' });
   d.textContent = title.charAt(0).toUpperCase();
   return d;
+}
+
+function closeDropdowns() {
+  document.querySelectorAll('.card-dropdown.open').forEach(d => d.classList.remove('open'));
 }
 
 /* ── Detail panel ──────────────────────────────────────── */
@@ -248,8 +274,13 @@ function bindPanel() {
   document.getElementById('panelClose').addEventListener('click',   () => closePanel());
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && activeCard) closePanel();
+    if (e.key === 'Escape') {
+      if (activeCard) closePanel();
+      else closeDropdowns();
+    }
   });
+
+  document.addEventListener('click', () => closeDropdowns());
 }
 
 function openPanel(card) {
