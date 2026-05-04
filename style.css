@@ -52,10 +52,13 @@ body {
 }
 
 .logo-text {
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: -0.16px;
-  color: var(--black);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  background: linear-gradient(90deg, #E05A4E 0%, #F2924A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .nav-filters {
@@ -135,13 +138,12 @@ body {
 
 /* ── Section ───────────────────────────────────────────── */
 .section-header {
-  background: var(--black);
-  padding: 16px var(--px);
-  color: #F5F5F5;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: -0.16px;
-  line-height: 1.5;
+  padding: 28px var(--px) 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--black);
+  letter-spacing: -0.4px;
+  line-height: 1.3;
 }
 
 .card-grid-wrapper {
