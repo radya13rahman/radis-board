@@ -134,10 +134,6 @@ function renderSections() {
 
     const section = el('section', { className: 'category-section', id: `section-${cat.id}` });
 
-    const header = el('div', { className: 'section-header' });
-    header.textContent = cat.label;
-    section.appendChild(header);
-
     const wrapper = el('div', { className: 'card-grid-wrapper' });
 
     if (cards.length === 0) {
