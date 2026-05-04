@@ -31,6 +31,7 @@ async function init() {
   readHash();
   render();
   bindNav();
+  bindHamburger();
   bindPanel();
 
   window.addEventListener('hashchange', () => {
@@ -65,6 +66,7 @@ function bindNav() {
     btn.addEventListener('click', () => {
       const f = btn.dataset.filter;
       activeCard = null;
+      closeMobileMenu();
       pushHash(f === 'all' ? '' : f);
       if (!location.hash && f === 'all') {
         activeFilter = 'all';
@@ -72,6 +74,29 @@ function bindNav() {
       }
     });
   });
+}
+
+/* ── Hamburger ─────────────────────────────────────────── */
+function bindHamburger() {
+  const hamburger = document.getElementById('hamburger');
+  const navbar    = document.getElementById('navbar');
+
+  hamburger.addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = navbar.classList.toggle('nav-open');
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  document.addEventListener('click', e => {
+    if (!navbar.contains(e.target)) closeMobileMenu();
+  });
+}
+
+function closeMobileMenu() {
+  const navbar    = document.getElementById('navbar');
+  const hamburger = document.getElementById('hamburger');
+  navbar.classList.remove('nav-open');
+  hamburger.setAttribute('aria-expanded', 'false');
 }
 
 function syncNav() {

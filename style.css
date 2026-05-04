@@ -24,7 +24,9 @@ body {
   font-family: var(--font);
   background: var(--white);
   color: var(--black);
-  min-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* ── Navbar ────────────────────────────────────────────── */
@@ -38,6 +40,8 @@ body {
   justify-content: space-between;
   padding: 12px var(--px);
   border-bottom: 1px solid var(--surface);
+  /* needed so mobile dropdown positions relative to this */
+  position: sticky;
 }
 
 .nav-logo {
@@ -94,6 +98,43 @@ body {
 .filter-btn:not(.active):hover {
   background: var(--surface);
 }
+
+/* ── Hamburger ─────────────────────────────────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.hamburger:hover { background: var(--surface); }
+
+.hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--black);
+  border-radius: 2px;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+  transform-origin: center;
+}
+
+.navbar.nav-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.navbar.nav-open .hamburger span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.navbar.nav-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Main grows to push footer down ───────────────────── */
+.main { flex: 1; }
 
 /* ── Section ───────────────────────────────────────────── */
 .section-header {
@@ -466,3 +507,59 @@ body {
 }
 
 .panel-cta:hover { opacity: 0.88; }
+
+/* ── Responsive: Tablet (768–1023px) ──────────────────── */
+@media (max-width: 1023px) {
+  :root { --px: 40px; }
+
+  .card-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Responsive: Mobile (<768px) ──────────────────────── */
+@media (max-width: 767px) {
+  :root { --px: 20px; }
+
+  /* Hamburger visible, filters hidden by default */
+  .hamburger { display: flex; }
+
+  .nav-filters {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 4px;
+    background: var(--white);
+    border-bottom: 1px solid var(--surface);
+    padding: 10px var(--px) 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  }
+
+  /* dots hidden in stacked menu */
+  .nav-filters .nav-dot { display: none; }
+
+  .filter-btn {
+    text-align: left;
+    width: 100%;
+    min-width: unset;
+    padding: 10px 14px;
+  }
+
+  /* open state */
+  .navbar.nav-open .nav-filters { display: flex; }
+
+  /* keep navbar position relative so dropdown anchors to it */
+  .navbar { position: sticky; }
+
+  /* single column cards */
+  .card-row { grid-template-columns: 1fr; }
+
+  /* detail panel: full screen on mobile */
+  .detail-panel { width: 100%; }
+
+  /* footer padding */
+  .footer { padding: 20px var(--px); }
+}
