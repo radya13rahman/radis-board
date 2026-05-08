@@ -27,6 +27,20 @@
     </button>
   </nav>
 
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Curated for Creators</p>
+      <h1 class="hero-title">Find the tools<br>that <em>move</em> you</h1>
+      <p class="hero-sub">Hand-picked AI tools, remote job sources, and inspiration — all in one place.</p>
+      <a href="#main" class="hero-cta">Explore the board</a>
+    </div>
+    <div class="hero-3d" id="hero3d">
+      <canvas id="coinCanvas"></canvas>
+      <p class="hero-3d-hint">Drag to rotate</p>
+    </div>
+  </section>
+
   <main class="main" id="main"></main>
 
   <footer class="footer">
@@ -41,5 +55,15 @@
   </aside>
 
   <script src="app.js"></script>
+  <!-- Three.js for 3D hero -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="hero3d.js"></script>
 </body>
 </html>
